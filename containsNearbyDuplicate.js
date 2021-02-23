@@ -5,5 +5,19 @@
  * @return {boolean}
  */
 var containsNearbyDuplicate = function(nums, k) {
-
+    let map={},result=false;
+	for(let i=0;i<nums.length;i++){
+		if(map[nums[i]]===undefined){
+			map[nums[i]]=[];
+		}else{
+			let len=map[nums[i]].length;
+			if(i-map[nums[i]][len-1]<=k){
+				result=true;
+				return result;
+			}
+		}
+		map[nums[i]].push(i);
+	}
+	return result;
 };
+console.log(containsNearbyDuplicate([1,2,3,1],3));
