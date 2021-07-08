@@ -21,23 +21,24 @@ var longestCommonPrefix = function(strs) {
         trie1.addStr(strs[i]);
     }
     let tree = trie1.Head;
-    let prefix = "";
+    let prefix = [];
     function tranceTree(node){
+        let nums = 0;
+        let s = '';
         for(let i in node){
-            if(typeof node[i] === "object"){
-                prefix+=i;
-                let nums = 0;
-                for(let s in node[i]){
-                   nums++;
-                }
-                if(nums === 1){
-                    tranceTree(node[i],nums);
-                }
-            }
-            else console.log(node[i]);
+            s = i;
+            nums++;     
         }
+        if(nums>1) return;
+        if(s!== "$") prefix.push(s);
+        if(typeof node[s] === "object"){
+            tranceTree(node[s]);
+        }
+        else console.log(node[s]);
     }
-    tranceTree(tree);
-    return prefix;
+    tranceTree(tree,0);
+    return prefix.join("");
 };
-console.log(longestCommonPrefix(["adfsffaf","affsdddd"]));
+// console.log(longestCommonPrefix(["adfsffaf","affsdddd"]));
+// console.log(longestCommonPrefix(["dog","racecar","car"]));
+console.log(longestCommonPrefix([""]));
