@@ -22,6 +22,7 @@ class BinaryTree{
     }
     add(elem){
         let addFinish = false;
+        let queue = [];
         this.hook.firstOrder = (node)=>{
             if(node.left === null && !addFinish){
                 node.left = new TreeNode(elem);
@@ -44,4 +45,19 @@ btree.add(3);
 btree.add(4);
 btree.add(5);
 btree.add(6);
-console.log(btree);
+btree.add(7);
+console.dir(btree);
+function tranverse(node){//层序遍历较为简单写法
+    let stack= [];
+    stack.push(node);
+    while(stack.length){
+        let elem = stack.shift();
+        console.log(elem.val);
+        if(elem.left){
+            stack.push(elem.left);
+        }
+        if(elem.right){
+            stack.push(elem.right);
+        }
+    }
+}
