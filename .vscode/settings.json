@@ -1,0 +1,10 @@
+{
+    "C_Cpp.errorSquiggles": "Disabled",
+    "files.associations": {
+        "stdio.h": "c",
+        "ostream": "cpp",
+        "conio.h": "c",
+        "xutility": "c",
+        "stdbool.h": "c"
+    }
+}
