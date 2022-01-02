@@ -9,19 +9,19 @@ function ListNode(val, next) {
  * @return {ListNode}
 */
 var mergeTwoLists = function(l1, l2) {
-    let root = new ListNode("$");
+    let root = new ListNode("$");//根节点
     let node = root;
     while(l1!==null || l2!==null){
-        if(l1 === null){
+        if(l1 === null){//l1已经清空
             node.next = new ListNode(l2.val);
             l2 = l2.next;
-        }else if(l2 === null){
+        }else if(l2 === null){//l2已经清空
             node.next = new ListNode(l1.val);
             l1 = l1.next;
-        }else if(l1.val < l2.val){
+        }else if(l1.val < l2.val){//l1较小，取l1
             node.next = new ListNode(l1.val);
             l1 = l1.next;
-        }else{
+        }else{//l2较小，取l2
             node.next = new ListNode(l2.val);
             l2 = l2.next;
         }
