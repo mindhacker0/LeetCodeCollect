@@ -1,5 +1,5 @@
 #include <stdio.h>
-main()
+int main()
 {
     int a[3]={1,2,3};
     a[3] =4;
