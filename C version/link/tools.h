@@ -12,12 +12,12 @@ struct ListNode *makeLinkFromList(int *list,int size){
             node->val = list[i];
             node->next = (struct ListNode*)malloc(sizeof(struct ListNode));
             head = node;
-            printf("%d\n",node->val);
+            //printf("%d\n",node->val);
             cur = node->next;
         }else{
             cur->val = list[i];
-            cur->next = i==4?NULL:(struct ListNode*)malloc(sizeof(struct ListNode));
-            printf("%d\n",cur->val);
+            cur->next = i==(size-1)?NULL:(struct ListNode*)malloc(sizeof(struct ListNode));
+            //printf("%d\n",cur->val);
             cur = cur->next;
         }
     }

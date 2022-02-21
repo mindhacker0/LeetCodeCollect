@@ -3,17 +3,21 @@
 * @return {string}
 */
 var longestCommonPrefix = function(strs) {
-    function Trie(){
+    function Trie(){//字典树
         this.Head = Object.create(null);
+        let endSign = Symbol.for("$end");
+        this.endSymbol = endSign;
         this.addStr = function(str){
             let node = this.Head;
             for(let i in str){
-                if(!node[str[i]]){
-                    node[str[i]] = {};
+                if(str.hasOwnProperty(i)){
+                    if(!node[str[i]]){
+                        node[str[i]] = {};
+                    }
+                    node=node[str[i]];
                 }
-                node=node[str[i]];
             }
-            node['$']?node["$"]++:(node["$"]=1);
+            node[endSign]?node[endSign]++:(node[endSign]=1);
         }
     }
     let trie1 = new Trie();

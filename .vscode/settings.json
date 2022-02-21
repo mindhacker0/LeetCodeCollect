@@ -5,6 +5,13 @@
         "ostream": "cpp",
         "conio.h": "c",
         "xutility": "c",
-        "stdbool.h": "c"
+        "stdbool.h": "c",
+        "stdlib.h": "c",
+        "xlocale": "c",
+        "system_error": "c",
+        "type_traits": "c",
+        "xlocnum": "c",
+        "xtr1common": "c",
+        "time.h": "c"
     }
 }
