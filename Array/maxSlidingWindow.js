@@ -1,3 +1,4 @@
+//239. 滑动窗口最大值
 /**
  * @param {number[]} nums
  * @param {number} k
@@ -7,7 +8,7 @@
 //     let arr = [0];
 //     let result = [];
 //     for(let i=0;i<nums.length;i++){
-//         while(arr[0]<=i-k) arr.shift();
+//         while(arr[0]<=i-k) arr.shift();//不在窗口里面
 //         if(nums[i]>=nums[arr[0]]){//新进的数大于队头
 //             while(arr.length) arr.pop();
 //             arr.push(i);

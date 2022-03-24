@@ -12,4 +12,7 @@ var isPowerOfTwo = function(n) {
     }
     return true;
 };
+var isPowerOfTwo = function(n) {
+   return  n & (n-1);
+};
 console.log(isPowerOfTwo(4))

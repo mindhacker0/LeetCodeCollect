@@ -6,8 +6,8 @@ var hammingWeight = function(n) {
     function toBin(n){
 		let arr=[];
 		while(n!==0){
-			arr.unshift(n%2);
-			n=~~(n/2);
+			arr.unshift(n&1);
+			n=n>>1;
 		}
 		return arr;
 	}
