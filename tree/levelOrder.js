@@ -3,30 +3,46 @@ function TreeNode(val, left, right) {
     this.left = (left===undefined ? null : left)
     this.right = (right===undefined ? null : right)
 }
+//102. 二叉树的层序遍历
 /**
  * @param {TreeNode} root
  * @return {number[]}
 */
-var levelOrder = function(root) {
-    let arr = new Array;
-    if(root === null) return arr;
-    function tranverse(node){//层序遍历较为简单写法
-        let stack= [];
-        stack.push(node);
-        while(stack.length){
-            let elem = stack.shift();
-            arr.push(elem.val);
-            if(elem.left){
-                stack.push(elem.left);
+// var levelOrder = function(root) {//递归(89.50%)
+//     let arr = [];
+//     function tranverse(node,level){
+//         if(node === null) return;
+//         if(typeof arr[level] === 'undefined') arr[level] = [];
+//         arr[level].push(node.val);
+//         tranverse(node.left,level+1);
+//         tranverse(node.right,level+1);
+//     }
+//     tranverse(root,0);
+//     return arr;
+// }
+var levelOrder = function(root) {//非递归
+    if(root === null) return [];
+    let arr = [];
+    let queue = [];
+    let level = 0;
+    queue.push(root);
+    while(queue.length){
+        if(typeof arr[level] === "undefined") arr[level] = [];
+        let len = queue.length;
+        for(let i=0;i<len;i++){
+            let node = queue.shift();
+            arr[level].push(node.val);
+            if(node.left){
+                queue.push(node.left);
             }
-            if(elem.right){
-                stack.push(elem.right);
+            if(node.right){
+                queue.push(node.right);
             }
         }
+        level++;
     }
-    tranverse(root);
     return arr;
-};
+}
 let tree = new TreeNode(6);
 tree.left = new TreeNode(2);
 tree.right = new TreeNode(8);

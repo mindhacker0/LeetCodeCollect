@@ -22,26 +22,13 @@
 //     return hasEnd;
 // };
 var canJump = function(nums) {//贪心
-    if(nums.length===1) return true;
-    let step = 0;//当前下标
-    while(step<nums.length-1){
-        let next = step,nextadd = nums[step];//下一步的跨度
-        for(let i=1;i<=nums[step];i++){
-            if(i==1){
-                next = nums[step+1];
-                nextadd = 1;
-            }else if((nums[step+i]-i+1)>=next){
-                next = nums[step+i]-i+1;
-                nextadd = i;
-            }
-        }
-        console.log(step,step+nextadd);
-        step = step+nextadd;
-        if(next === step) break;
+    let dp = [];
+    for(let i=0;i<nums.length;i++){
+        dp[i] = i+nums[i];
     }
-    return step>= nums.length-1?true:false;
+    return 
 }
 //console.log(canJump([2,3,1,1,4]));
-//console.log(canJump([3,2,1,0,4]));
+console.log(canJump([3,2,1,0,4]));
 console.log(canJump([2,0,0]));
 //console.log(canJump([1,1,1,0]));
