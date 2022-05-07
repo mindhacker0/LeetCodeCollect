@@ -29,32 +29,19 @@
 var findRedundantDirectedConnection = function(edges) {
     let len = edges.length;
     let djs = new DisjointSet(len);
-    let map = [];
-    for(let i=0;i<len;i++){
-        map[i] = [];
-        for(let j=0;j<len;j++){
-            if(i==j) map[i][j] = 0;
-            else map[i][j] = 0;
-        }
-    }
-    for(let i=0;i<len;i++){
-        map[edges[i][0]-1][edges[i][1]-1] = 1;
-    }
-    for(let i=0;i<len;i++){
-        console.log(map[i]);
-    }
     for(let i=0;i<len;i++){
         if(djs.isConnected(edges[i][0],edges[i][1])){
-            ans = edges[i];
         }else{
             djs.union(edges[i][0],edges[i][1]);
         }
+        console.log(djs.fa.join(","));
+
     }
-    return ans;
+    return djs;
 };
 console.log(findRedundantDirectedConnection([
     [2,1],
     [3,1],
     [4,2],
     [1,4]
-]));
+]));//[2,1]
