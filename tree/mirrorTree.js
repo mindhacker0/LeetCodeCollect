@@ -22,6 +22,17 @@ var mirrorTree = function(root) {
     console.log(mTree);
     return mTree;
 };
+var mirrorTree = function(root) {
+    function tranverse(node){
+        if(node===null) return null;
+        let left = tranverse(node.left);
+        let right = tranverse(node.right);
+        node.left = right;
+        node.right = left;
+        return node;
+    }
+    return tranverse(root);
+};
 let tree = new TreeNode(4);
 tree.left = new TreeNode(2);
 tree.right = new TreeNode(7);

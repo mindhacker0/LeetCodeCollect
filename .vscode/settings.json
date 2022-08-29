@@ -12,6 +12,13 @@
         "type_traits": "c",
         "xlocnum": "c",
         "xtr1common": "c",
-        "time.h": "c"
+        "time.h": "c",
+        "limits": "c",
+        "utility": "c",
+        "map": "c",
+        "initializer_list": "c",
+        "vector": "c",
+        "xstring": "c",
+        "xtree": "c"
     }
 }

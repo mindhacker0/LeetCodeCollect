@@ -28,6 +28,9 @@ var findNumberOfLIS = function(nums) {
     console.log(dp,cnt);
     return maxLen;
 };
+var findNumberOfLIS = function(nums) {//树状数组
+    
+}
 console.log(findNumberOfLIS([1]));
 console.log(findNumberOfLIS([1,3,5,4,7]));
 console.log(findNumberOfLIS([2,2,2,2,2]));

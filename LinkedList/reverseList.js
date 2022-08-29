@@ -34,4 +34,16 @@ var reverseList = function(head) {
     console.log(shead);
     return shead;
 };
+var reverseList = function(head) {
+  if(head===null||head.next===null) return head;
+  let tail = null;
+  let next = head;
+  while(head){
+    head = head.next;
+    next.next = tail;
+    tail = next;
+    next = head;
+  }
+  return tail;
+};
 console.log(reverseList(GenerateLink([1,2,3,4,5])))

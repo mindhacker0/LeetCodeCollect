@@ -42,6 +42,15 @@ var isSymmetric = function(root) {
     }
     return true;
 };
+var isSymmetric = function(root) {
+    if(root===null) return true;
+    function check(left,right){
+        if(!left.val && !right.val) return true;
+        if(!left.val || !right.val) return false;
+        return (left.val === right.val) && check(left.left,right.right) && check(left.right,right.left);
+    }
+    return check(root.left,root,right);
+};
 let tree = new TreeNode(1);
 tree.left = new TreeNode(2);
 tree.right = new TreeNode(2);

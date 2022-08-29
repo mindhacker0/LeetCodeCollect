@@ -1,3 +1,4 @@
+//剑指 Offer 53 - II. 0～n-1中缺失的数字
 /**
  * @param {number[]} nums
  * @return {number}
@@ -22,4 +23,42 @@ var missingNumber = function(nums) {
     } 
     return sum+1;
 };
-console.log(missingNumber([0,2]));
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
+ var missingNumber = function(nums) {//哈希
+    nums=JSON.parse(nums[0])
+    let len=nums.length;
+    let map={};
+    for(let i=0;i<nums.length;i++){
+        map[nums[i]]=true;
+    }
+    console.log(nums,map)
+    for(var i=0;i<nums.length;i++){
+        if(!map[i]){
+            return i
+        }
+    }
+    return i;
+};
+var missingNumber = function(nums) {//二分
+    let l = 0,r = nums.length - 1;
+    while(l<r){
+        let mid = (l+r)>>1;
+        if(nums[mid]<=mid){
+            l = mid+1;
+        }else{
+            r = mid-1;
+        }
+        console.log(l,r);
+    }
+    console.log(l,r);
+    if(l === nums[l]) l++;
+    return l;
+};
+console.log(missingNumber([0,1,3]));
+//console.log(missingNumber([0,1,2,3,4,5,6,7,9]));
+//console.log(missingNumber([0,1,3,4,5,6,7,8,9]));
+console.log(missingNumber([0,1,2]));
+console.log(missingNumber([0]));

@@ -5,7 +5,7 @@
  * @param {number} upper
  * @return {number}
 */
-var countRangeSum = function(nums, lower, upper) {
+var countRangeSum = function(nums, lower, upper) {//暴力解法
     let preSum = [0];
     let len = nums.length;
     for(let i=1;i<=len;i++){
@@ -22,3 +22,11 @@ var countRangeSum = function(nums, lower, upper) {
     }
     return count;
 };
+var countRangeSum = function(nums, lower, upper) {//归并排序
+    let len = nums.length;
+    
+    return ;
+}
+// console.log(countRangeSum([-2,5,-1],-2,2));//3
+// console.log(countRangeSum([-2,0,0,2,2,-2],-3,1));//10
+console.log(countRangeSum([0,-1,1,2,-3,-3],-3,1));//13
