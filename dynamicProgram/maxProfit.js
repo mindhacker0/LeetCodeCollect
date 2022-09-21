@@ -13,4 +13,17 @@ var maxProfit = function(prices) {
     }
     return maxP;
 };
-console.log(maxProfit([7,1,5,3,6,4]))
+var maxProfit = function(prices) {
+    let stack = [];
+    let ans = 0;
+    for(let i=0;i<prices.length;i++){
+        while(stack.length && stack[stack.length-1]>prices[i]) stack.pop();
+        stack.push(prices[i]);
+        if(stack.length>=2) ans = Math.max(ans,stack[stack.length-1]-stack[0]);
+        console.log(stack);
+    }
+    return ans;
+}
+// console.log(maxProfit([7,1,5,3,6,4]))
+// console.log(maxProfit([7,6,4,3,1]))
+console.log(maxProfit([2,1,2,1,0,1,2]))
