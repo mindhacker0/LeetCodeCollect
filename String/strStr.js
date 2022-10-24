@@ -1,3 +1,4 @@
+//28. 找出字符串中第一个匹配项的下标
 /**
  * @param {string} haystack
  * @param {string} needle
@@ -10,8 +11,9 @@ var strStr = function(haystack, needle) {//KMP算法
         let left = 0,right =1;
         while(right<needle.length){
             if(needle[left] === needle[right]){
-                left++;right++;
+                left++;
                 nextArr[right] = left;
+                right++;
             }else{
                 if(left > 0){
                     left = nextArr[left];

@@ -2,7 +2,7 @@
  * @param {number[]} nums
  * @return {number[][]}
 */
-var threeSum = function(nums) {
+var threeSum = function(nums) {//配合两数之和
     if(nums.length<3) return [];
     function twoSum(nums, target){//返回下标
         let map = {};
@@ -27,7 +27,31 @@ var threeSum = function(nums) {
     }
     return result.map((item)=>item.split(","));
 };
+var threeSum = function(nums) {//排序+双指针
+    nums.sort((a,b)=>a-b);
+    let ans = [];
+    for(let i=0;i<nums.length-1;i++){
+        if(nums[i]>0) continue;
+        if(i>0 && nums[i-1] === nums[i]) continue;
+        let left = i+1,right = nums.length-1;
+        while(left<right){
+            let sum = nums[i]+nums[left]+nums[right];
+            if(sum>0) right--;
+            else if(sum<0) left++;
+            else{
+                console.log(i,left,right)
+                let arr = [nums[i],nums[left],nums[right]];
+                ans.push(arr);
+                while(left<right && nums[right-1] === nums[right]) right--;
+                while(left<right && nums[left] === nums[left+1]) left++;
+                right--;left++;
+            } 
+        }
+    }
+    return ans;
+}
+console.log(threeSum([-2,0,0,2,2])); 
 // console.log(threeSum([1,2,-2,-1]));
-// console.log(threeSum([-1,0,1,2,-1,-4]));
+//console.log(threeSum([-1,0,1,2,-1,-4]));
 // console.log(threeSum([-1,0,1,2,-1,-4,-2,-3,3,0,4]));
-console.log(threeSum([0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]));
+// console.log(threeSum([0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]));

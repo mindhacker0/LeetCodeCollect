@@ -44,7 +44,7 @@ var largestIsland = function(grid) {
             }
         }
     }
-    console.log(djs,djs.getSize(3));
+    //console.log(djs,djs.getSize(3));
     if(empty.length===0) return djs.maxSize;//没有地方可以转换
     let max = 0;
     for(let i=0;i<empty.length;i++){
@@ -53,7 +53,7 @@ var largestIsland = function(grid) {
         for(let k=0;k<4;k++){
             let nextX = x+dir[k][0],nextY = y+dir[k][1];
             if(nextX<0||nextX>=height||nextY<0||nextY>=width||grid[nextX][nextY]===0) continue;
-            console.log("add",nextX,nextY);
+            //console.log("add",nextX,nextY);
             let parent = djs.find(nextX*height+nextY);
             if(!set.has(parent)){
                 join+=djs.getSize(nextX*height+nextY);

@@ -6,7 +6,7 @@
 */
 var exist = function(board, word) {
     let m = board.length,n=board[0].length;
-    let visit = new Array(m*n).fill(0);
+    let visit = new Array(m*n).fill(false);
     let dx = [-1,0,0,1];
     let dy = [0,-1,1,0];
     let ans = false;
@@ -27,17 +27,17 @@ var exist = function(board, word) {
         for(let i=0;i<4;i++){
             let nx = x+dx[i],ny = y+dy[i];
             if(nx<0||nx>=m||ny<0||ny>=n||visit[nx*n+ny]) continue;
-            visit[nx*n+ny] = 1;
+            visit[nx*n+ny] = true;
             trace([nx,ny],matchIndex);
-            visit[nx*n+ny] = 0;
+            visit[nx*n+ny] = false;
         }
     }
     for(let i=0;i<m;i++){
         for(let j=0;j<n;j++){
             if(board[i][j]!==word[0]) continue;
-            visit[i*n+j] = 1;
+            visit[i*n+j] = true;
             trace([i,j],0);
-            visit[i*n+j] = 0;
+            visit[i*n+j] = false;
             if(ans) break;
         }
     }
