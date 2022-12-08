@@ -1,6 +1,6 @@
 //解决1024节日游戏问题
-let number = [2,7,2,9,2,5,1075];
-let cmp = ["&",">>","<<"];
+let number = [996,15];
+let cmp = ["-","//","%","**"];
 let computedMap = new Map([
     ["|",(a,b)=>(a|b)],
     ["+",(a,b)=>(a+b)],
@@ -8,6 +8,11 @@ let computedMap = new Map([
     [">>",(a,b)=>(a>>b)],
     ["<<",(a,b)=>(a<<b)],
     ["//",(a,b)=>~~(a/b)],
+    ["%",(a,b)=>a%b],
+    ["*",(a,b)=>a*b],
+    ["-",(a,b)=>a-b],
+    ["^",(a,b)=>a^b],
+    ["**",(a,b)=>a**b],
 ]);
 let target = 1024;
 let cmpVisit = new Array(cmp.length).fill(false);
