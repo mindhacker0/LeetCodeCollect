@@ -23,3 +23,5 @@ function primeList(){
     console.log(primeList)
 }
 //线性筛法 欧拉筛法
+//质因数分解算法，试除法、Pollard Rho算法、费马算法、埃拉托斯特尼筛法
+//最小公倍数 辗转相除法(欧几里得)、质因数分解法、短除法、、更相减损法
