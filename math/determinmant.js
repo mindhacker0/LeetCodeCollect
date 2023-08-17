@@ -60,7 +60,6 @@ console.log(calcDeterminant([
     [3,4,9],
     [1,0,0]
 ]));
-//余子式
 function cofactorArr(arr,m,n){//行列式arr中a[m][n]的余子式
     let nArr = [],len = arr.length;
     for(let i=0;i<len;++i){
@@ -86,4 +85,7 @@ let fac = cofactorArr([
     [0,7,4]
 ],1,1)
 console.log(fac);
+//余子式
+module.exports = {calcDeterminant,cofactorArr};
+
 
