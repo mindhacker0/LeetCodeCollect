@@ -105,14 +105,14 @@ class Matrix{//矩阵
     muti(cmtx){//矩阵乘法
         if(!cmtx instanceof Matrix||this.w!==cmtx.h) return null;
         let result = [];//结果必然是高this.h x 宽cmtx.w的矩阵
-        for(let i=0;i<cmtx.w;++i){
+        for(let i=0;i<this.h;++i){
             result[i] = [];
-            for(let j=0;j<this.h;++j){
+            for(let j=0;j<cmtx.w;++j){
                 let sum = 0;
                 for(let k=0;k<this.w;++k){
-                    sum+=this.mtx[j][k]*cmtx.mtx[k][i];
+                    sum+=this.mtx[i][k]*cmtx.mtx[k][j];
                 }
-                result[i][j] = sum;
+                result[i][j] = sum; 
             }
         }
         return result;
@@ -218,7 +218,7 @@ class Matrix{//矩阵
         let cpMtx = this.coperateMtx((x)=>x/detMtVal);
         return cpMtx;
     }
-}
+} 
 function printMatrix(arr){
     for(let i=0;i<arr.length;i++){
         let str = "";
@@ -270,3 +270,13 @@ console.log(a.muti(a.inverse()));
 
 // 3-k 5  (3-k) - 5*(9-k) = 0
 // 9 1-k
+let anys = new Matrix(2,2,false),anys1 = new Matrix(2,2,false);
+anys.init([
+ [1,2],
+ [3,4]
+]);
+anys1.init([
+[5,6],
+[7,8]
+])
+console.log(anys.muti(anys1));
