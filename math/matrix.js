@@ -113,14 +113,14 @@ class Matrix{//矩阵
     muti(cmtx){//矩阵乘法
         if(!cmtx instanceof Matrix||this.w!==cmtx.h) return null;
         let result = [];//结果必然是高this.h x 宽cmtx.w的矩阵
-        for(let i=0;i<cmtx.w;++i){
+        for(let i=0;i<this.h;++i){
             result[i] = [];
-            for(let j=0;j<this.h;++j){
+            for(let j=0;j<cmtx.w;++j){
                 let sum = 0;
                 for(let k=0;k<this.w;++k){
-                    sum+=this.mtx[j][k]*cmtx.mtx[k][i];
+                    sum+=this.mtx[i][k]*cmtx.mtx[k][j];
                 }
-                result[i][j] = sum;
+                result[i][j] = sum; 
             }
         }
         return result;
@@ -262,6 +262,7 @@ class Matrix{//矩阵
         let cpMtx = this.coperateMtx((x)=>x/detMtVal);
         return cpMtx;
     }
+<<<<<<< HEAD
     rankB(){//奇异值分解（SVD）
        
     }
@@ -285,6 +286,9 @@ class UnitMatrix extends Matrix{
         }
     }
 }
+=======
+} 
+>>>>>>> 8c4283077db426e99cb0fe83cedefed19ec9478b
 function printMatrix(arr){
     for(let i=0;i<arr.length;i++){
         let str = "";
