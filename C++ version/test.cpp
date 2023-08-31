@@ -1,5 +1,5 @@
 #include <iostream>
-#import "public/tools.cpp"
+#include "public/tools.cpp"
 using namespace std;
 // 各类型所占内存
 int main()
