@@ -56,6 +56,9 @@
 // 将 (A - λI)v = 0 转化为行列式的形式，得到 |A - λI| = 0。这个行列式被称为特征方程。
 // 解特征方程 |A - λI| = 0，求解出 λ 的值。这些 λ 的值就是矩阵的特征值。
 // 对于每个特征值 λ，求解方程 (A - λI)v = 0，得到特征向量 v。特征向量是非零向量，可以通过高斯消元法或其他方法求解。
+// 方程组的解的情况
+// A是非线性齐次方程组的系数矩阵，b是该方程组常数项的矩阵，得到增广矩阵[A|b]
+// 若该增广矩阵的秩和系数矩阵的秩相等，则方程有解。相等且秩为阶数，有唯一解，否则有无数解。
 const fn = require('./determinmant');
 function swapVar(x,y){
     let temp = x;
@@ -76,6 +79,10 @@ function gcd(a,b){//辗转相除法(欧几里得)
     }
     return a;
 }
+function lcm(a,b){//最小公倍数
+    const g = gcd(a,b);
+    return a*b/g;
+}
 function mutiLCM(arr){//多个数的最大公倍数
     let result = arr[0],muti = arr[0];
     for(let i =1;i<arr.length;++i){
@@ -85,17 +92,18 @@ function mutiLCM(arr){//多个数的最大公倍数
     return muti;
 }
 class Matrix{//矩阵
-    constructor(h=0,w=0,init = true){
+    constructor(arr){//默认初始化为单位矩阵
         this.mtx = [];
-        this.h = h;
-        this.w = w;
-        if(init) this.init();
+        this.h = 0;
+        this.w = 0;
+        if(arr) this.init(arr);
     }
     init(arr){//初始化 深拷贝
-        let  isSynmmetry = true;//是否为对称矩阵
-        for(let i=0;i<this.h;++i){
+        let isSynmmetry = true;//是否为对称矩阵
+        this.h = arr.length,this.w = arr[0].length;
+        for(let i=0;i<arr.length;++i){
             this.mtx[i] = [];
-            for(let j=0;j<this.w;++j){
+            for(let j=0;j<arr[0].length;++j){
                 this.mtx[i][j] = arr[i][j];
                 if(arr[j] && arr[i][j] !== arr[j][i]) isSynmmetry = false;
             }
@@ -172,24 +180,24 @@ class Matrix{//矩阵
         }
         return this;
     }
-    addMutiCol(augend,addend,muti){// 行加倍数行
+    addMutiCol(augend,addend,muti){// 列加倍数列
         if(isNaN(muti)||muti===0) return null;
         for(let j=0;j<this.h;++j){
             this.mtx[j][augend]+=this.mtx[j][addend]*muti;
         }
         return this;
     }
-    rankA(){//高斯消元求秩 倒三角阶梯型
-        let rank = 0,cyMtx =  new Matrix(this.h,this.w,false);
-        cyMtx.init(this.mtx);
+    rankA(){//高斯消元求秩 初等行变换 倒三角阶梯型
+        let rank = 0,cyMtx =  new Matrix(this.mtx);
         let mtx = cyMtx.mtx,detValue = 1;
-        for(let i=0;i<cyMtx.h;++i){
-            if(i<cyMtx.h-1){
-                let lcm = mutiLCM(mtx[i].slice(i));
-                for(let j=cyMtx.w-1;j>i;--j){
-                    cyMtx.mutiCol(lcm/mtx[i][j],j);
-                    cyMtx.addMutiCol(j,i,-(lcm/mtx[i][i]));
-                }
+        for(let i=0;i<cyMtx.w;++i){
+            let ref = mtx[i][i];
+            for(let j=i+1;j<cyMtx.h;++j){
+                if(ref === 0){ ref = mtx[i][j];continue;}
+                if(mtx[j][i] === 0) continue;
+                let k = lcm(ref,mtx[j][i]);
+                cyMtx.mutiRow(k/mtx[j][i],j);
+                cyMtx.addMutiRow(j,i,-(k/ref));
             }
             if(mtx[i][i]!==0) rank++;
             detValue*=mtx[i][i];
@@ -197,8 +205,45 @@ class Matrix{//矩阵
         printMatrix(mtx);
         return {rank,detValue};
     }
-    rankB(){//奇异值分解（SVD）
-       
+    getStandard(){//获取标准型 初等行变换将矩阵化为标准型
+        let cyMtx =  new Matrix(this.mtx);
+        let step = new UnitMatrix(this.h);
+        cyMtx.init(this.mtx);
+        let mtx = cyMtx.mtx;
+        for(let i=0;i<cyMtx.w;++i){
+            let ref = mtx[i][i];
+            for(let j=i+1;j<cyMtx.h;++j){
+                if(ref === 0){ ref = mtx[i][j];continue;}
+                if(mtx[j][i] === 0) continue;
+                let k = lcm(ref,mtx[j][i]);
+                let muti1 = k/mtx[j][i],muti2 = -(k/ref);
+                cyMtx.mutiRow(muti1,j);
+                step.mutiRow(muti1,j);
+                cyMtx.addMutiRow(j,i,muti2);
+                step.addMutiRow(j,i,muti2);
+            }
+        }
+        for(let i=cyMtx.h-1;i>=0;--i){
+            let ref = ref;
+            for(let j=i-1;j>=0;--j){
+                if(ref === 0){ ref = mtx[i][j];continue;}
+                if(mtx[j][i] === 0) continue;
+                let k = lcm(ref,mtx[j][i]);
+                let muti1 = k/mtx[j][i],muti2 = -(k/ref);
+                cyMtx.mutiRow(muti1,j);
+                step.mutiRow(muti1,j);
+                cyMtx.addMutiRow(j,i,muti2);
+                step.addMutiRow(j,i,muti2);
+            }
+            if(mtx[i][i]){
+                const muti3 = 1/mtx[i][i];
+                cyMtx.mutiRow(muti3,i);
+                step.mutiRow(muti3,i);
+            }
+        }
+        printMatrix(mtx);
+        printMatrix(step.mtx);
+        return {cyMtx,step};//step即为逆矩阵
     }
     coperateMtx(calc=(val)=>val){//伴随矩阵
         let result = [];
@@ -208,17 +253,38 @@ class Matrix{//矩阵
                 result[i][j] = calc(fn.cofactorArr(this.mtx,j,i).valueOf());
             }
         }
-        let rt = new Matrix(this.h,this.w,false);
-        rt.init(result);
-        return rt;
+        return new Matrix(result);
     }
     inverse(){//矩阵的逆（克拉默法则）
         let detMtVal = fn.calcDeterminant(this.mtx);
+        console.log(detMtVal)
         if(detMtVal === 0) return null;//行列式的值为零，矩阵不可逆
         let cpMtx = this.coperateMtx((x)=>x/detMtVal);
         return cpMtx;
     }
-} 
+    rankB(){//奇异值分解（SVD）
+       
+    }
+    symbolVector(){//特征值和特征向量
+
+    }
+}
+class UnitMatrix extends Matrix{
+    constructor(n){
+        super()
+        this.w = n;
+        this.h = n;
+        this.init();
+    }
+    init(){
+        for(let i=0;i<this.h;++i){
+            this.mtx[i] = [];
+            for(let j=0;j<this.w;++j){
+               this.mtx[i][j] = i===j?1:0;
+            }
+        }
+    }
+}
 function printMatrix(arr){
     for(let i=0;i<arr.length;i++){
         let str = "";
@@ -228,22 +294,27 @@ function printMatrix(arr){
         }
         console.log(str);
     }
-    console.log("\r\n");
+    console.log("\n");
 }
-let m1 = new Matrix(3,3,false);
-let m2 = new Matrix(2,1,false);
-m1.init(
-[
-    [2,4,2],
+let m1 = new Matrix([
+    [2,0,2],
     [4,3,1],
-    [2,1,4],
+    [4,0,4],
 ]);
-m2.init(
-[
-    [1],
-    [2]
-]);
-console.log(m1.rankA())
+// let m2 = new Matrix(3,3,false);
+// let m3 = new Matrix([
+//     [1,2],
+//     [3,4]
+// ]);
+// m2.init(
+// [
+//     [-1,2,-1],
+//     [-3,2,-1],
+//     [1,-1,1]
+// ]);
+const res = m1.getStandard();
+console.log(m1.rankA());
+// console.log(res.step.muti(m1))
 // console.log(m1.reverse(),m1);
 // console.log(m2.reverse(),m2);
 // console.log(m2.muti(m1));

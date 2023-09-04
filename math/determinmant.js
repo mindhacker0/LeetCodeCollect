@@ -49,17 +49,6 @@ function calcDeterminant(arr,fnMuti = (a,b)=>a*b){//定义法行列式求值
     recur([],new Set);
     return ans;
 }
-console.log(reverse([4,2,3,5,1]));
-console.log(calcDeterminant([
-    [1,2,6],
-    [3,4,9],
-    [1,0,0]
-]));
-console.log(calcDeterminant([
-    [1,2,6],
-    [3,4,9],
-    [1,0,0]
-]));
 function cofactorArr(arr,m,n){//行列式arr中a[m][n]的余子式
     let nArr = [],len = arr.length;
     for(let i=0;i<len;++i){
@@ -79,12 +68,6 @@ function cofactorArr(arr,m,n){//行列式arr中a[m][n]的余子式
         }
     }
 }
-let fac = cofactorArr([
-    [1,4,5],
-    [3,6,1],
-    [0,7,4]
-],1,1)
-console.log(fac);
 //余子式
 module.exports = {calcDeterminant,cofactorArr};
 
