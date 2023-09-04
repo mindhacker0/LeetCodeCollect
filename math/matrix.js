@@ -270,13 +270,15 @@ console.log(a.muti(a.inverse()));
 
 // 3-k 5  (3-k) - 5*(9-k) = 0
 // 9 1-k
-let anys = new Matrix(2,2,false),anys1 = new Matrix(2,2,false);
+let anys = new Matrix(2,2,false),anys1 = new Matrix(3,3,false);
 anys.init([
- [1,2],
- [3,4]
+[7,3],
+[5,2]
 ]);
 anys1.init([
-[5,6],
-[7,8]
+[4,2,3],
+[1,1,0],
+[-1,2,3]
 ])
-console.log(anys.muti(anys1));
+console.log(anys.inverse())
+//console.log(anys.muti(anys1));
