@@ -306,9 +306,11 @@ function printMatrix(arr){
     console.log("\n");
 }
 let m1 = new Matrix([
-    [2,0,2],
-    [4,3,1],
-    [4,0,4],
+    [1,1,0,0,-1]
+    [0,0,1,1,-3]
+    [1,2,0,0,-2]
+    [0,0,1,2,-3]
+    [1,3,0,0,-3]
 ]);
 // let m2 = new Matrix(3,3,false);
 // let m3 = new Matrix([
@@ -321,8 +323,7 @@ let m1 = new Matrix([
 //     [-3,2,-1],
 //     [1,-1,1]
 // ]);
-const res = m1.getStandard();
-console.log(m1.rankA());
+console.log(m1.coperateMtx());
 // console.log(res.step.muti(m1))
 // console.log(m1.reverse(),m1);
 // console.log(m2.reverse(),m2);
@@ -339,17 +340,6 @@ ma.init([
     [9/42,-3/42]
 ]);
 console.log(a.muti(a.inverse()));
-// 3 5  x y     1 0   3x+5x1 = 1   3y+5y1 = 0
-// 9 1  x1 y1   0 1   9x+1x1 = 0   9y+1y1 = 1
-
-// 1  5  -42
-// 9  3 
-// 特征值
-// 3 5  x    3x+5y = kx  (3-k)x+5y = 0
-// 9 1  y    9x+1y = ky  9x+(1-k)y = 0
-
-// 3-k 5  (3-k) - 5*(9-k) = 0
-// 9 1-k
 let anys = new Matrix(2,2,false),anys1 = new Matrix(3,3,false);
 anys.init([
 [7,3],

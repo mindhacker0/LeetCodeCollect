@@ -101,7 +101,7 @@ console.log(SumDeterminate([
 ]));//-40
 //下三角行列式:主对角线以上的元素全为0
 //下三角行列式的值为主对角线的元素之积
-co    nsole.log(SumDeterminate([[-4,3],[2,-1]])*SumDeterminate([[0,2],[-5,1]])-SumDeterminate([[1,-5],[1,3]])*SumDeterminate([[-1,1],[-3,3]]));
+console.log(SumDeterminate([[-4,3],[2,-1]])*SumDeterminate([[0,2],[-5,1]])-SumDeterminate([[1,-5],[1,3]])*SumDeterminate([[-1,1],[-3,3]]));
 //行列式的性质：
 //1.行列式的值和它的转置行列式的值相等。
 console.log(SumDeterminate([
