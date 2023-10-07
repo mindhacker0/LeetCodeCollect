@@ -14,6 +14,16 @@
 // 1.设A是一个m×n矩阵，对A施行一次初等行变换，其结果等价于在A的左边乘以相应的m阶初等矩阵；对A施行一次初等列变换，其结果等价于在A的右边乘以相应的n阶初等矩阵；
 // 2.方阵A可逆的充分必要条件是存在有限个初等矩阵P1，P2，......Pn，使得A=P1P2...Pn
 // 3.m×n矩阵A与B等价当且仅当存在m阶可逆矩阵P与n阶可逆矩阵Q使得B=PAQ
+//矩阵的行秩等于列秩
+// 如果矩阵A经过有限次的初等行变换变为B，则A的行向量组和B的行向量组等价，而A的任意k个列向量与B中对应的k个列向量有相同的线性关系。
+//矩阵的等价:如果矩阵A经过有限次初等变换成B，就称矩阵A和B等价。
+// 如果矩阵A和B等价，那么r(A) = r(B)
+// 每个矩阵都有等价标准型，矩阵A和B等价，当且仅当他们拥有相同的等价标准型。
+//初等矩阵：单位矩阵E经过一次初等变换得到的矩阵称为初等矩阵。
+//对一个s*n的矩阵A做一次初等行变换就相当于在A的左边乘以相应的s*s初等矩阵，对A做一次初等列变换就相当于在A的右边乘上相应的n*n初等矩阵。
+//矩阵A和B等价的充分必要条件是存在有限个初等矩阵使得A左乘和右乘后变成B
+//n*n矩阵可逆的充分必要条件是它能表示为一些初等矩阵的乘积
+//可逆矩阵可以通过一系列的初等行变换化成单位矩阵。
 // 矩阵的秩
 // 方阵(行数、列数相等的矩阵)的列秩和行秩总是相等的，因此它们可以简单地称作矩阵A的秩。通常表示为r(A)，rk(A)或rank(A)
 // m × n矩阵的秩最大为m和n中的较小者，表示为 min(m,n)。有尽可能大的秩的矩阵被称为有满秩；类似的，否则矩阵是秩不足（或称为“欠秩”）的。
@@ -207,6 +217,7 @@ class Matrix{//矩阵
                 cyMtx.mutiRow(k/mtx[j][i],j);
                 cyMtx.addMutiRow(j,i,-(k/ref));
             }
+            console.log(mtx)
             if(mtx[i][i]!==0) rank++;
             detValue*=mtx[i][i];
         }
@@ -231,8 +242,9 @@ class Matrix{//矩阵
                 step.addMutiRow(j,i,muti2);
             }
         }
+        console.log(mtx)
         for(let i=cyMtx.h-1;i>=0;--i){
-            let ref = ref;
+            let ref = mtx[i][i];
             for(let j=i-1;j>=0;--j){
                 if(ref === 0){ ref = mtx[i][j];continue;}
                 if(mtx[j][i] === 0) continue;
@@ -305,11 +317,9 @@ function printMatrix(arr){
     console.log("\n");
 }
 let m1 = new Matrix([
-    [1,1,0,0,-1]
-    [0,0,1,1,-3]
-    [1,2,0,0,-2]
-    [0,0,1,2,-3]
-    [1,3,0,0,-3]
+   [1,3,2],
+   [1,5,1],
+   [3,5,8]
 ]);
 // let m2 = new Matrix(3,3,false);
 // let m3 = new Matrix([
@@ -322,32 +332,10 @@ let m1 = new Matrix([
 //     [-3,2,-1],
 //     [1,-1,1]
 // ]);
-console.log(m1.coperateMtx());
+console.log(m1.getStandard());
 // console.log(res.step.muti(m1))
 // console.log(m1.reverse(),m1);
 // console.log(m2.reverse(),m2);
 // console.log(m2.muti(m1));
 // console.log(m1.mutiCol(2,0,2).addMutiRow(0,1,1));
-let a = new Matrix(2,2,false);
-let ma = new Matrix(2,2,false);
-a.init([
-    [3,5],
-    [9,1]
-]);
-ma.init([
-    [-1/42,5/42],
-    [9/42,-3/42]
-]);
-console.log(a.muti(a.inverse()));
-let anys = new Matrix(2,2,false),anys1 = new Matrix(3,3,false);
-anys.init([
-[7,3],
-[5,2]
-]);
-anys1.init([
-[4,2,3],
-[1,1,0],
-[-1,2,3]
-])
-console.log(anys.inverse())
 //console.log(anys.muti(anys1));
