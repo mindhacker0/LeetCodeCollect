@@ -10,10 +10,10 @@
 // 对缓存中的键执行 get 或 put 操作，使用计数器的值将会递增。
 // 函数 get 和 put 必须以 O(1) 
 class HeapNode {
-    constructor(value, payload) {
+    constructor(value, payload,rank) {
         this.value = value || 0;
         this.payload = payload || null;
-        this.isDel = false;
+        this.rank = rank;
     }
 }
 function swap(arr,i,j){
@@ -25,8 +25,8 @@ class MinHeap{
     constructor(){
         this.root = [null];
     }
-    insert(key,val){
-        let obj = new HeapNode(val,key);
+    insert(key,val,rank){
+        let obj = new HeapNode(val,key,rank);
         this.root.push(obj);
         this.heapfyUp(this.root.length -1);
         return obj;
@@ -42,16 +42,19 @@ class MinHeap{
     heapfyUp(index){// 向上调整
         let start = index,end = 1,parent = null;
         while((parent = start>>1)>=end){
-           if(this.root[start].value<this.root[parent].value) swap(this.root,start,parent);
+           if(this.root[start].value<this.root[parent].value
+            ||(this.root[start].value===this.root[parent].value&&this.root[start].rank<this.root[parent].rank)) swap(this.root,start,parent);
+           else break;
            start = parent;
         }
     }
     heapfyDown(index){// 向下调整
         let start = index,end = this.root.length;
-        while(start>end){
+        while((start<<1) < end){
             let left = start<<1,right = left+1;
-            let next = (right>=end || this.root[left].value < this.root[right].value)?left:right;
-            if(this.root[start].value>this.root[next].value) swap(this.root,start,next);
+            let next = (right>=end || this.root[left].value < this.root[right].value || (this.root[left].value===this.root[right].value&&this.root[left].rank<this.root[right].rank))?left:right;
+            if(this.root[start].value>this.root[next].value||(this.root[start].value===this.root[next].value&&this.root[start].rank>this.root[next].rank)) swap(this.root,start,next);
+            else break;
             start = next;
         }
     }
@@ -64,6 +67,8 @@ var LFUCache = function(capacity) {
     this.minCount = new MinHeap;
     this.counter = new Map;
     this.base = new Map;
+    this.index = 0;
+    this.indexMap = new Map;
 };
 
 /** 
@@ -71,13 +76,15 @@ var LFUCache = function(capacity) {
  * @return {number}
  */
 LFUCache.prototype.get = function(key) {
-    let val = this.base.get(key);
-    if(typeof val!=="undefined"){
+    let res = this.base.get(key);
+    if(typeof res!=="undefined"){
         let count = this.counter.get(key)||0;
         this.counter.set(key,count+1);
-        this.minCount.update(key,count+1);
-    }else val = -1;
-    return val;
+        this.minCount.insert(key,count+1,this.index);
+        this.indexMap.set(key,this.index);
+        this.index++;
+    }else res = -1;
+    return res;
 };
 
 /** 
@@ -88,20 +95,22 @@ LFUCache.prototype.get = function(key) {
 LFUCache.prototype.put = function(key, value) {
     let res = this.base.get(key);
     if(typeof res === "undefined" && this.base.size >= this.capacity){
-        let min = Infinity,minKey = null;
-        this.counter.forEach((val,key)=>{
-            if(val<min){
-                min = val;
-                minKey = key;
+        let min;
+        while(min = this.minCount.take()){
+            const { payload,value,rank } = min;
+            if(rank === this.indexMap.get(payload)){
+                this.counter.delete(payload);
+                this.base.delete(payload);
+                this.indexMap.delete(payload);
+                break;
             }
-        });
-        if(minKey!==null){
-            console.log('del',minKey,this.counter);
-            this.base.delete(minKey);
-            this.counter.delete(minKey);
         }
     }
-    this.counter.set(key,(this.counter.get(key)||0)+1);      
+    let count = this.counter.get(key)||0;
+    this.counter.set(key,count+1);
+    this.minCount.insert(key,count+1,this.index);
+    this.indexMap.set(key,this.index);
+    this.index++;
     this.base.set(key,value);
 };
 
@@ -112,14 +121,9 @@ LFUCache.prototype.put = function(key, value) {
  * obj.put(key,value)
  */
 // let fnArr =["LFUCache", "put", "put", "get", "put", "get", "get", "put", "get", "get", "get"];
-// let paramArr = [[2], [1, 1], [2, 2], [1], [3, 3], [2], [3], [4, 4], [1], [3], [4]];
-let fnArr = ["LFUCache","put","put","get","get","put","get","get","get"];
-let paramArr = [[2],[2,1],[3,2],[3],[2],[4,3],[2],[3],[4]];
-let handle = null;
-let result = [];
-for(let i=0;i<fnArr.length;++i){
-    if(fnArr[i] === 'LFUCache') result.push(handle = new LFUCache(...paramArr[i]));
-    if(fnArr[i] === 'put') result.push(handle.put(...paramArr[i]));
-    if(fnArr[i] === 'get') result.push(handle.get(...paramArr[i]));
-}
-console.log(result);
+// let paramArr = [[2],   [1, 1], [2, 2], [1], [3, 3,-2], [2], [3], [4, 4], [1,-1], [3,3], [4,4]];
+// let fnArr = ["LFUCache","put","put","get","get","put","get","get","get"];
+// let paramArr = [[2],    [2,1],[3,2], [3], [2],  [4,3], [2],  [3],  [4]];
+// for(let i=1;i<ans.length;++i){
+//     if(ans[i]!==null && ans[i]!==result[i]) console.log(i,fnArr[i],paramArr[i],ans[i],result[i]);
+// }
