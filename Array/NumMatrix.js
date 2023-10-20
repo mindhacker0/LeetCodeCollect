@@ -2,7 +2,7 @@
 /**
  * @param {number[][]} matrix
  */
-var NumMatrix = function(matrix) {//暴力
+var NumMatrix = function(matrix) {//暴力 击败 100.00% 无语 88ms
     this.mtx = matrix;
 };
 
