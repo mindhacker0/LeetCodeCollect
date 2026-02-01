@@ -3,6 +3,7 @@ let parent = __dirname.split("\\");
 parent.pop();
 parent = parent.join("\\");
 let count = 0;
+console.log(__dirname);
 function tranverseFile(ftext){
     fs.stat(ftext, function (err, stats) {//获取路径是否为文件夹还是文件
         if(stats.isDirectory()){//是文件夹，继续遍历
@@ -18,7 +19,7 @@ function tranverseFile(ftext){
             if(stats.isFile()){
                 //console.log("文件",ftext)
                 if(/.*js$/.test(ftext)) count++;
-                console.log("js文件统计",count);
+                //console.log("js文件统计",count);
             }
         }
     })

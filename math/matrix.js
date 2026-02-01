@@ -317,9 +317,9 @@ function printMatrix(arr){
     console.log("\n");
 }
 let m1 = new Matrix([
-   [1,3,2],
-   [1,5,1],
-   [3,5,8]
+  [0,-1,0],
+  [1,0,7],
+  [0,0,1]
 ]);
 // let m2 = new Matrix(3,3,false);
 // let m3 = new Matrix([
@@ -332,7 +332,7 @@ let m1 = new Matrix([
 //     [-3,2,-1],
 //     [1,-1,1]
 // ]);
-console.log(m1.getStandard());
+console.log(m1.inverse());
 // console.log(res.step.muti(m1))
 // console.log(m1.reverse(),m1);
 // console.log(m2.reverse(),m2);
