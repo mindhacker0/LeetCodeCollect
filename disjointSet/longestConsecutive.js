@@ -60,5 +60,59 @@ var longestConsecutive = function(nums) {
 //     console.log(arr);
 //     return maxlen;
 // }
+//一：并查集的解法
+class DisjointSet{
+    constructor(nums){
+        this.fa = new Map;
+        for(let i=0;i<nums.length;++i){
+            this.fa.set(nums[i],nums[i]);
+        }
+    }
+    find(x){
+        if(this.fa.get(x) === undefined) return null;
+        if(this.fa.get(x) === x) return x;
+        const v = this.find(this.fa.get(x));
+        this.fa.set(x,v);
+        return v;
+    }
+    union(a,b){
+        const a1 = this.find(a);
+        const b1 = this.find(b);
+        if(a1!==b1){
+           this.fa.set(a1,b1);
+        }
+    }
+}
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
+var longestConsecutive = function(nums) {
+    const djs = new DisjointSet(nums);
+    for(let i=0;i<nums.length;++i){
+        if(djs.find(nums[i]+1)!==null) djs.union(nums[i],nums[i]+1);
+    }
+    let max = 0;
+    for(let i=0;i<nums.length;++i){
+        const r = djs.find(nums[i]);
+        max = Math.max(max,r-nums[i]+1);
+    }
+    return max;
+};
+//二：哈希表解法
+var longestConsecutive = function(nums) {
+    const numSet = new Set(nums);
+    let max = 0;
+    for(const num of numSet){
+        let curr = num;
+        if(!numSet.has(num-1)){//可以确定该元素为某一序列的起始位置
+            while(numSet.has(curr+1)){
+                curr++;
+            }   
+        }
+        max = Math.max(max,curr-num+1);
+    }
+    return max;
+};
 //console.log(longestConsecutive([0,1,2,4,8,5,6,7,9,3,55,88,77,99,999999999,0]));
 console.log(longestConsecutive([100,4,200,1,3,2]));
