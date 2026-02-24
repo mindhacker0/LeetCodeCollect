@@ -46,4 +46,17 @@ var reverseList = function(head) {
   }
   return tail;
 };
+var reverseList = function(head) {
+    let root = null;
+    function reverse(node){
+        if(node === null) return null;
+        if(node.next === null){ root = node;  return node; }
+        const sub = reverse(node.next);
+        sub.next = node;
+        return node;
+    }
+    const last = reverse(head);
+    if(last) last.next = null;
+    return  root;
+}; 
 console.log(reverseList(GenerateLink([1,2,3,4,5])))
