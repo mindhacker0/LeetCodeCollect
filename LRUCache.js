@@ -7,6 +7,51 @@ class doubleListNode{
         this.prev = null;
     }
 }
+class DoubleListManager{
+    constructor(){
+        this.head = null;
+        this.tail = null;
+    }
+    getNode(key){//根据键值获取节点
+        let node = this.head;
+        while(node){
+            if(node.key === key) return node;
+            node = node.next;
+        }
+        return null;
+    }
+    addNode(node){//添加节点到尾部
+        if(this.head === null&&this.tail===null){
+            this.head = node;
+            this.tail = node;
+        }else{
+            this.tail.next = node;
+            node.prev = this.tail;
+            this.tail = this.tail.next;
+        }
+    }
+    removeNode(node){//移除节点
+        if(node.next === null){//被删除节点在尾部，要修改tail指向
+            this.tail = this.tail.prev;
+            node.prev = null;
+            if(this.tail) this.tail.next = null;
+            else this.head = null;
+        }else{   
+            if(node.prev!==null){
+                node.prev.next = node.next;
+                if(node.next){
+                    node.next.prev = node.prev;
+                }
+                node.prev = null;
+                node.next = null;
+            }else if(node.next){//被删除节点在头部，要修改head指向
+                this.head = node.next;
+                node.next = null;
+                if(this.head) this.head.prev = null;
+            }
+        }
+    }
+}
 // class LRUCache{
 //     constructor(capacity){
 //         this.capacity = capacity;
