@@ -34,16 +34,25 @@ var reverseList = function(head) {
     console.log(shead);
     return shead;
 };
-var reverseList = function(head) {
-  if(head===null||head.next===null) return head;
-  let tail = null;
-  let next = head;
-  while(head){
-    head = head.next;
-    next.next = tail;
-    tail = next;
-    next = head;
-  }
-  return tail;
+var reverseList = function(head) {//迭代法
+    let pre = null;
+    while(head!==null){
+        const next = head.next;
+        head.next = pre;
+        pre = head;
+        head = next;
+    }
+    return pre;
 };
+var reverseList = function(head) {//递归法
+    function reverse(pre,cur){
+        if(cur===null){
+            return pre;
+        }
+        const next = cur.next;
+        cur.next = pre;
+        return reverse(cur,next);
+    }
+    return reverse(null,head);
+}
 console.log(reverseList(GenerateLink([1,2,3,4,5])))
